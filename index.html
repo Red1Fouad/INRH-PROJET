@@ -63,39 +63,10 @@
                 <i class="fas fa-plus"></i> Add Fish
             </button><br>
 
-            <button type="submit" class="btn btn-success">Generate Database</button>
         </form>
     </div>
 
     <script>
-        // Function to handle form submission via AJAX
-        function saveFormData() {
-            // Collect form data
-            var formData = new FormData(document.getElementById('surveyForm'));
-
-            // Send form data via AJAX
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'generate_database.php', true);
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    alert(xhr.responseText); // Display success message
-                } else {
-                    alert('Error occurred. Please try again.'); // Display error message
-                }
-            };
-            xhr.onerror = function () {
-                alert('Error occurred. Please try again.'); // Display error message
-            };
-            xhr.send(formData);
-        }
-
-        // Add event listener to the form submit button
-        document.getElementById('surveyForm').addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevent default form submission
-            saveFormData(); // Call function to save form data via AJAX
-        });
-
-        // Function to add fish field dynamically
         var fishCount = 1;
 
         function addFishField() {
@@ -120,12 +91,41 @@
 
                 <label for="color">Color:</label>
                 <input type="text" name="color[]" class="form-control" required>
+
+                <button type="button" class="btn btn-success mt-2 submit-fish-btn" onclick="saveFishData(${fishCount})">
+                    Submit Fish ${fishCount}
+                </button><br>
             `;
             container.appendChild(fishField);
             fishCount++;
         }
 
-        // Function to show fish image based on selected species
+        function saveFishData(fishNumber) {
+            var formData = new FormData();
+            formData.append('survey_date', document.getElementById('survey_date').value);
+            formData.append('location', document.getElementById('location').value);
+            formData.append('surveyor', document.getElementById('surveyor').value);
+            formData.append('species', document.getElementsByName('species[]')[fishNumber - 1].value);
+            formData.append('length', document.getElementsByName('length[]')[fishNumber - 1].value);
+            formData.append('weight', document.getElementsByName('weight[]')[fishNumber - 1].value);
+            formData.append('color', document.getElementsByName('color[]')[fishNumber - 1].value);
+            formData.append('fishNumber', fishNumber);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'save_fish.php', true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    alert(xhr.responseText); // Display success message
+                } else {
+                    alert('Error occurred. Please try again.'); // Display error message
+                }
+            };
+            xhr.onerror = function () {
+                alert('Error occurred. Please try again.'); // Display error message
+            };
+            xhr.send(formData);
+        }
+
         function showFishImage(select) {
             var selectedOption = select.value;
             var fishImage = select.parentNode.querySelector(".fish-image");
@@ -144,7 +144,5 @@
             }
         }
     </script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 </body>
 </html>
