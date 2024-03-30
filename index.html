@@ -41,21 +41,91 @@
 <body>
     <div class="container">
         <h2 class="text-center mb-4">Create Survey Database</h2>
-        <form id="surveyForm">
-            <div class="form-group">
-                <label for="survey_date">Survey Date:</label>
-                <input type="date" id="survey_date" name="survey_date" class="form-control" required>
+        <div class="form-group">
+            <label for="port">Port:</label>
+            <select name="port" class="form-control" required>
+                <option value="">Select Port</option>
+                <option value="Nador">Nador</option>
+                <option value="Tanger">Tanger</option>
+                <option value="Casablanca">Casablanca</option>
+                <option value="Safi">Safi</option>
+                <option value="Agadir">Agadir</option>
+                <option value="Boujdour">Boujdour</option>
+                <option value="Laayoune">Laayoune</option>
+                <option value="Dakhla">Dakhla</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="enqueteur">Nom et prénom de l'enquêté (facultatif):</label>
+            <input type="text" id="enqueteur" name="enqueteur" class="form-control">
+        </div>
+        
+        <div class="form-group">
+            <label for="entreprise">Entreprise/Organisation:</label>
+            <input type="text" id="entreprise" name="entreprise" class="form-control">
+        </div>
+        
+        <div class="form-group">
+            <label for="adresse">Sise à:</label>
+            <input type="text" id="adresse" name="adresse" class="form-control">
+        </div>
+        
+        <div class="form-group">
+            <label for="telephone">N° téléphone:</label>
+            <input type="text" id="telephone" name="telephone" class="form-control">
+        </div>
+        
+        <div class="form-group">
+            <label for="qualite">Qualité Enquêté:</label>
+            <select name="qualite" class="form-control" required>
+                <option value="">Select Qualité</option>
+                <option value="Patron Pêche/Marin">Patron Pêche/Marin</option>
+                <option value="Classificateur">Classificateur</option>
+                <option value="Mareyeur">Mareyeur</option>
+                <option value="Exportateur">Exportateur</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="duree">Durée d'exercice dans le secteur de la pêche (nb d'an):</label><br>
+            <div>
+                <label><input type="radio" name="duree" value="1"> 1</label>
+                <label><input type="radio" name="duree" value="2"> 2</label>
+                <label><input type="radio" name="duree" value="3"> 3</label>
+                <label><input type="radio" name="duree" value="4"> 4</label>
+                <label><input type="radio" name="duree" value="5"> 5</label>
+                <label><input type="radio" name="duree" value="6"> 6</label>
+                <label><input type="radio" name="duree" value="7"> 7</label>
+                <label><input type="radio" name="duree" value="8"> 8</label>
+                <label><input type="radio" name="duree" value="9"> 9</label>
+                <label><input type="radio" name="duree" value="10"> 10</label>
+                <label><input type="radio" name="duree" value="11"> 11</label>
+                <label><input type="radio" name="duree" value="12"> 12</label>
+                <label><input type="radio" name="duree" value="13"> 13</label>
+                <label><input type="radio" name="duree" value="14"> 14</label>
+                <label><input type="radio" name="duree" value="15"> 15</label>
+                <label><input type="radio" name="duree" value="15"> 15</label>
+                <label><input type="radio" name="duree" value="15+"> 15+</label>
             </div>
-
-            <div class="form-group">
-                <label for="location">Location:</label>
-                <input type="text" id="location" name="location" class="form-control" required>
+        </div>
+        
+        
+        
+        
+        <div class="form-group">
+            <label for="clients">Quels sont vos principaux clients:</label>
+            <div>
+                <label><input type="checkbox" name="clients[]" value="Marché local"> Marché local</label><br>
+                <label><input type="checkbox" name="clients[]" value="Industries locales"> Industries locales</label><br>
+                <label><input type="checkbox" name="clients[]" value="UE"> UE</label><br>
+                <label><input type="checkbox" name="clients[]" value="JAPON"> JAPON</label><br>
+                <label><input type="checkbox" name="clients[]" value="USA"> USA</label><br>
+                <label><input type="checkbox" name="clients[]" id="autresCheckbox" value="Autres"> Autres à préciser:</label>
+                <input type="text" id="autresText" name="autres_clients" class="form-control" disabled>
             </div>
-
-            <div class="form-group">
-                <label for="surveyor">Surveyor:</label>
-                <input type="text" id="surveyor" name="surveyor" class="form-control" required>
-            </div>
+        </div>
+        
 
             <div id="fishContainer"></div>
 
@@ -143,6 +213,14 @@
                     fishImage.src = ""; // Clear image if no species is selected
             }
         }
+        // Enable/disable text field based on checkbox selection
+    document.getElementById("autresCheckbox").addEventListener("change", function() {
+        var autresText = document.getElementById("autresText");
+        autresText.disabled = !this.checked;
+        if (!this.checked) {
+            autresText.value = "";
+        }
+    });
     </script>
 </body>
 </html>
