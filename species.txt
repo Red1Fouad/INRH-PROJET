@@ -1,0 +1,307 @@
+BUCARDE AIGUILLONNÉE;Acanthocardia aculeata
+BUCARDE ROUGE;Acanthocardia echinata
+BUCARDE TUBERCULEE;Acanthocardia tuberculata
+CASSERON COMMUN;Alloteuthis subulata
+RENARD;Alopias vulpinus
+ALOSE FEINTE;Alosa fallax
+ANÉMONE DE MER;Anemonia sulcata
+ANGUILLE D'EUROPE;Anguilla anguilla
+BARBIER-HIRONDELLE;Anthias anthias
+SABRE NOIR;Aphanopus carbo
+EPERLAN (LUISET);Argentina sphyraena
+PETITE ARGENTINE;Argentina sphyraena
+MAIGRE;Argyrosomus regius
+GAMBON ROUGE;Aristaeomorpha foliacea
+CREVETTE ROUGE;Aristeus antennatus
+BONITOU;Auxis rochei
+AUXIDE;Auxis thazard
+BALISTE CABRI;Balistes carolinensis
+SOLE DES PROFONDEURS;Bathysolea profundicola
+ORPHIE;Belone belone
+BERYX COMMUN;Beryx decadactylus
+BERYX LONG;Beryx splendens
+MUREX OU ROCHER;Bolinus brandaris
+BOGUE;Boops Boops
+ROMBOU PODAS;Bothus podas
+GRANDES CASTAGNOLE;Brama brama
+BULOT;Buccinum undatum
+PETITE SOLE JAUNE;Buglossidium luteum
+VERNIS FAUVE;Callista chione
+LICHIE LIRIO;Campogramma glaycos
+TOURTEAU DENTÉ;Cancer bellianus
+TOURTEAU POUPART;Cancer pagurus
+Sanglier;Capros aper
+COMÈTE COUSSUT;Caranx rhonchus
+REQUIN SOMBRE;Carcharhinus obscurus
+PUNTILLA;
+SQUALE CHAGRIN COMMUN;Centrophorus granulosus
+CÉPOLE COMMUNE;Cepola macrophthalma
+COQUE GLAUQUE;Cerastoderma glaucum
+COQUE COMMUNE;Cerstoderma edule
+PÈLERIN;Cetorhinus maximus
+PETITE PRAIRE;Chamelea gallina
+GRONDIN ROUGE;Chelidonichthys cuculus
+GRONDIN PERLON;Chelidonichthys lucerna
+GRONDIN MORRUDE;Chelidonichthys obscurus
+MULET LIPPU;Chelon labrosus
+CHIMÈRE COMMUNE;Chimaera monstrosa
+CHINCHARD;Chinchard sp
+GIGARTINA;Chondracanthus sp
+FEUILLE;Citharus linguatula
+GRENADIER RATON;Coelorhynchus coelorhynchus
+CONGRE D’EUROPE;Conger conger
+GIRELLE;Coris julis
+CORYPHÈNE COMMUNE;Coryphaena hippurus
+CREVETTE GRISE;Crangon crangon
+CYMBIUM;Cymbium sp
+SOLE LANGUE CANARIENNE;Cynoglossus canariensis
+SOLE RUARDON COMMUNE;Dagetichthys lusitanicus
+PASTENAGUE ÉPINEUSE;Dasyatis centroura
+PASTENAGUE COMMUNE;Dasyatis pastinaca
+DENTÉ À TACHE ROUGE;Dentex canariensis
+DENTÉ COMMUN;Dentex dentex
+GROS DENTÉ ROSE;Dentex gibbosus
+DENTÉ À GROS YEUX;Dentex macrophthalmus
+DENTÉ DU MAROC;Dentex maroccanus
+BAR EUROPÉEN;Dicentrarchus labrax
+BAR TACHETÉ;Dicentrarchus punctatus
+CÉTEAU;Dicologlossa cuneata
+CÉTEAU OCELLÉ;Dicologlossa hexophthalma
+SPARAILLON COMMUN;Diplodus annularis
+SPARAILLON AFRICAIN;Diplodus bellottii
+SAR À GROSSE LÈVRE;Diplodus cervinus
+SAR À MUSEAU POINTU;Diplodus puntazzo
+SAR COMMUN DU MAROC;Diplodus sargus
+SAR COMMUN;Diplodus sargus
+SAR À TÊTE NOIRE;Diplodus vulgaris
+POCHETEAU GRIS;Dipturus batis
+POCHETEAU NOIR;Dipturus oxyrinchus
+FLION TRONQUE;Donax trunculus
+POULPE BLANC;Eledone cirrhosa
+ELÉDONE MUSQUÉE;Eledone moschata
+ANCHOIS COMMUN;Engraulis encrasicolus
+COUTEAU-SABRE;Ensis ensis
+MÉROU BLANC;Epinephelus aeneus
+MÉROU GRIS;Epinephelus caninus
+MÉROU BADÈCHE;Epinephelus fasciatus
+MÉROU NOIR;Epinephelus marginatus
+SAGRE COMMUN;Etmopterus spinax
+THONINE COMMUNE;Euthynnus alletteratus
+GRONDIN GRIS;Eutrigla gurnardus
+REQUIN-HÂ;Galeorhinus galeus
+CHIEN ESPAGNOL;Galeus melastomus
+ALGUE GÉLIDIUM;Gelidium corneum
+GELIDIUM SESQUIPEDAL;Gelidium corneum
+GÉLIDIUM-CRIN;Gelidium corneum
+GELIDIUM SPINOSUM;Gelidium spinosum
+AMANDE A DEUX TACHES;Glycymeris bimaculata
+AMANDE VIOLACEE;Glycymeris nummaria
+AMANDE VELUE;Glycymeris pilosa
+ALGUE GRACILAIRES;Gracilaria gracilis
+RAIE PAPILLON ÉPINEUSE;Gymnura altavela
+ORMEAU TUBERCULEUX;Haliotis tuberculata
+RASCASSE DE FOND;Helicolenus dactylopterus
+REQUIN-PERLON;Heptranchias perlo
+CREVETTE NYLON ARMÉE;Heterocarpus ensifer
+REQUIN GRISET;Hexanchus griseus
+CONCOMBRE DE MER;Holothuria sp
+HOMARD EUROPÉEN;Homarus gammarus
+HOPLOSTÈTE;Hoplostethus mediterraneus
+QUEUE DE RAT;Hymenocephalus italicus
+ENCORNET ROUGE;Illex coindetii
+REQUIN TAUPE BLEUE;Isurus oxyrinchus
+TAUPE BLEUE;Isurus oxyrinchus
+BONITE À VENTRE RAYÉ;Katsuwonus pelamis
+VIEILLE;Labrus bergylta
+LAMINAIRE;Laminaria ochroleuca
+SABRE ARGENTÉ;Lepidopus caudatus
+CAVILLONE COMMUN;Lepidotrigla cavillone
+CAVILLONE LISSE;Lepidotrigla dieuzeidei
+RAIE CIRCULAIRE;Leucoraja circularis
+RAIE CHARDON;Leucoraja fullonica
+RAIE FLEURIE;Leucoraja naevus
+LICHE NE-BÉ;Lichia amia
+MARBRÉ;Lithognathus mormyrus
+BIGORNEAU;Littorina littorea
+MULET DORÉ;Liza aurata
+MULET PORC;Liza ramada
+MULET SAUTEUR;Liza saliens
+MULET SAUTEUR;Liza saliens
+ENCORNET VEINÉ;Loligo forbesii
+ENCORNET;Loligo vulgaris
+BAUDROIE;Lophius budegassa
+BAUDROIE COMMUNE;Lophius budegassa
+BAUDROIE ROUSSE;Lophius piscatorius
+BÉCASSE DE MER;Macroramphosus scolopax
+ARAIGNÉE DE MER;Maja squinado
+MAKAIRE NOIR;Makaira indica
+MAKAIRE BLEU;Makaira nigricans
+MERLU;Merlicus sp
+MERLU COMMUN;Merluccius merluccius
+MERLU D'AFRIQUE TROPICALE;Merluccius polli
+MERLU DU SÉNÉGAL;Merluccius senegalensis
+SOLE OCELLÉ;Microchirus ocellatus
+SOLE PERDRIX;Microchirus variegatus
+MERLAN BLEU;Micromesistius poutassou
+MANTE MÉDITERRANÉENNE;Mobula mobular
+SOLE VELUE;Monochirus hispidus
+MORO COMMUN;Mora moro
+MULET SAUTEUR AFRIQUE;Mugil capurrii
+MULET SAUTEUR D'AFRIQUE;Mugil capurrii
+MULET À GROSSE TÊTE;Mugil cephalus
+ROUGET BARBET DE VASE;Mullus barbatus
+ROUGET BARBET DE ROCHE;Mullus surmuletus
+MURÈNE DE LA MÉDITERRANÉE;Muraena helena
+EMISSOLE LISSE;Mustelus mustelus
+MÉROU ROYAL;Mycteroperca rubra
+AIGLE COMMUN;Myliobatis aquila
+MOULE MEDITERRANEENNE;Mytilus galloprovincialis
+MOULE MÉDITERRANÉENNE;Mytilus galloprovincialis
+ÉTRILLE COMMUNE;Necora puber
+LANGOUSTINE;Nephrops norvegicus
+OBLADE;Oblada melanura
+POULPE DE SALUZZI;Octopus salutii
+PIEUVRE;Octopus vulgaris
+MULET LABÉON;Oedalechilus labeo
+ENCORNET VOLANT;Ommastrephes bartramii
+PALOMETTE;Orcynopsis unicolor
+HUITRE PLATE EUROPEENNE;Ostrea Edulis
+PAGEOT ACARNÉ;Pagellus acarne
+Besugue;Pagellus acarné
+PAGEOT À TACHE ROUGE;Pagellus bellottii
+DORADE ROSE;Pagellus bogaraveo
+PAGEOT COMMUN;Pagellus erythrinus
+PAGRE RAYÉ;Pagrus auriga
+PAGRE À POINTS BLEUS;Pagrus caeruleostictus
+PAGRE COMMUN;Pagrus pagrus
+BOUQUET;Palaemon serratus
+LANGOUSTE ROUGE;Palinurus elephas
+LANGOUSTE ROSE;Palinurus mauritanicus
+LANGOUSTE ROYALE;Panulirus regius
+LANGOUSTE ROYALE (VERTE);Panulirus regius
+VERTE;Panulirus regius
+OURSSIN PIERRE;Paracentrotus lividus
+CREVETTE ROSE;Parapenaeus longirostris
+CREVETTE ROSE DU LARGE;Parapenaeus longirostris
+PAROMOLE;Paromola cuvieri
+SIVADE ROSE;Pasiphaea multidentata
+SIVADE BLANCHE;Pasiphaea sivado
+COQUILLE SAINT JAQUES DE LA MEDITERRANNEE;Pecten jacobaeus
+COQUILLE SAINT JAQUES DE L'ATLANTIQUE;Pecten maximus
+SOLE-POLE;Pegusa lascaris
+CREVETTE MAGALOPS;Penaeopsis serrata
+CARAMOTE;Penaeus kerathurus
+MALARMAT;Peristedion cataphractum
+MOULE D'AFRIQUE;Perna perna
+PHYCIS DE FOND;Phycis blennoides
+PHYCIS DE ROCHE;Phycis phycis
+DIAGRAMME GRIS;Plectorhinchus mediterraneus
+CREVETTE FLÈCHE;Plesionika heterocarpus
+CREVETTE DORÉE;Plesionika martia
+CREVETTE NARVAL;Plesionika narval
+GAMBON ÉCARLATE;Plesiopenaeus edwardsianus
+POUCE PIED;Pollicipes pollicipes
+CERNIER COMMUN;Polyprion americanus
+GRONDEUR MÉTIS;Pomadasys incisus
+TASSERGAL;Pomatomus saltatrix
+RASCASSE DU LARGE;Pontinus kuhlii
+PEAU BLEU;Prionace glauca
+REQUIN PEAU BLEU;Prionace glauca
+ROUGET BARBET DU SÉNÉGAL;Pseudupeneus prayensis
+AIGLE VACHETTE;Pteromylaeus bovinus
+PASTENAGUE VIOLETTE;Pteroplatytrygon violacea
+RAIE ÉTOILÉE;Raja asterias
+RAIE LISSE;Raja brachyura
+RAIE BOUCLÉE;Raja clavata
+RAIE MÊLÉE;Raja microocellata
+RAIE-MIROIR;Raja miraletus
+RAIE DOUCE;Raja montagui
+RAIE TACHETÉE;Raja polystigma
+RAIE BRUNETTE;Raja undulata
+MOURINE ÉCHANCRÉE;Rhinoptera marginata
+RAIE BLANCHE;Rostroraja alba
+PALOURDE CROISEE D'EUROPE;Ruditapes decussatus
+ROUVET;Ruvettus pretiosus
+BONITE À DOS RAYÉ;Sarda sarda
+SARDINE;Sardina pilchardus
+SARDINE COMMUNE;Sardina pilchardus
+ALLACHE;Sardinella aurita
+GRANDE ALLACHE;Sardinella maderensis
+SAUPE;Sarpa salpa
+ROUFFE IMPERIAL;Schedophilus ovalis
+CORB COMMUN;Sciaena umbra
+MAQUEREAU ESP ATLAN;Scomber colias
+MAQUEREAU ESP ATLANT;Scomber colias
+MAQUEREAU ESPAGNOL;Scomber colias
+MAQUEREAU ESPAGNOL ATLANTIQUE;Scomber colias
+MAQUEREAU COMMUN;Scomber scombrus
+TURBOT;Scophthalmus maximus
+BARBUE;Scophthalmus rhombus
+RASCASSE ROSE;Scorpaena elongata
+RASCASSE DE CADENAT;Scorpaena loppei
+RASCASSE DE MADÈRE;Scorpaena maderensis
+PETITE RASCASSE;Scorpaena notata
+RASCASSE BRUNE;Scorpaena porcus
+RASCASSE ROUGE;Scorpaena scrofa
+PETITE ROUSSETTE;Scyliorhinus canicula
+GRANDE ROUSSETTE;Scyliorhinus stellaris
+CIGALE;Scyllarus arctus
+PETITE CIGALE;Scyllarus arctus
+SQUALE GROGNEUR;Scymnodon ringens
+SEICHE AFRICAINE;Sepia bertheloti
+SEICHE ÉLÉGANTE;Sepia elegans
+SEICHE COMMUNE;Sepia officinalis
+SEICHE ROSÉE;Sepia orbignyana
+SÉPIOLE COMMUNE;Sepietta oweniana
+SÉRIOLE COURONNÉE;Seriola dumerili
+SERRAN CHÈVRE;Serranus cabrilla
+SERRAN ÉCRITURE;Serranus scriba
+SOLE DU SÉNÉGALE;Solea senegalensis
+SOLE COMMUNE;Solea solea
+COUTEAU DROIT;Solen marginatus
+SALICOQUE DE VASE;Solenocera membranacea
+DORADE ROYALE;Sparus aurata
+BÉCUNE EUROPÉENNE;Sphyraena sphyraena
+MENDOLE;Spicara maena
+DORADE GRISE;Spondyliosoma cantharus
+AIGUILLAT COMMUN;Squalus acanthias
+SQUILLE OCELLÉE;Squilla mantis
+OVARQUE BOUCHE DE SANG;Stramonita haemastoma
+FIATOLE;Stromateus fiatola
+MAKAIRE ÉPÉE;Tetrapturus georgei
+GERMON;Thunnus alalunga
+ALBACORE;Thunnus albacares
+THON OBÈSE;Thunnus obesus
+THON ROUGE;Thunnus thynnus
+TOUTENON COMMUN;Todarodes sagittatus
+TOUTENON SOUFLEUR;Todaropsis eblanae
+TORPILLE MARBRÉE;Torpedo marmorata
+TORPILLE NOIRE;Torpedo nobiliana
+PALOMINE;Trachinotus ovatus
+GRANDE VIVE;Trachinus draco
+PETITE VIVE;Trachinus vipera
+CHINCHARD À QUEUE JAUNE;Trachurus mediterraneus
+CHINCHARD BLEU;Trachurus picturatus
+CHINCHARD D'EUROPE;Trachurus trachurus
+CHINCHARD CUNÈNE;Trachurus trecae
+RASCASSE ÉPINEUSE;Trachyscorpia cristulata echinata
+POISSON-SABRE COMMUN;Trichiurus lepturus
+GRONDIN LYRE;Trigla lyra
+GRONDIN CAMARD;Trigloporus lastoviza
+TACAUD COMMUN;Trisopterus luscus
+ULVES;Ulva lactuca
+OMBRINE BRONZE;Umbrina canariensis
+OMBRINE CÔTIÈRE;Umbrina cirrosa
+OMBRINE FUSCA;Umbrina ronchus
+URANOSCOPE;Uranoscopus scaber
+PRAIRE;Venus verrucosa
+ESPADON;Xiphias gladius
+SAINT PIERRE;Zeus faber
+SAINT PIERRE ARGENTÉ;Zeus faber
+RAIE-RÂPE;
+CHINCHARD D EUROPE;Trachurus trachurus
+CREVETTE MEGALOPS;Penaeopsis serrata
+GUITARRE BOUCLÉE;Raja clavata
+MULLET PORC;Liza ramada
+RENARD À GROS YEUX;Alopias superciliosus
+CRAPAUD;Halobatrachus didactylus
