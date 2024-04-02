@@ -63,6 +63,10 @@
         <h2 class="text-center mb-4">Create Survey Database</h2>
         <form method="post" action="save_survey.php">
             <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" class="form-control" required>
+            </div>
+            <div class="form-group">
                 <label for="port">Port:</label>
                 <select name="port" class="form-control" required>
                     <option value="">Select Port</option>
@@ -223,15 +227,15 @@
         <img class="fish-image" src="" alt="Fish Image">
         
         <label>Processing:</label><br>
-        <input type="radio" name="processing[]" value="Entier"> Entier
+        <input type="radio" name="processing_entier_${fishCount}[]" value="Entier"> Entier
         <span style="margin-right: 10px;"></span>
-        <input type="radio" name="processing[]" value="Traité"> Traité<br>
+        <input type="radio" name="processing_traite_${fishCount}[]" value="Traité"> Traité<br>
         
-        <label>Processing:</label><br>
+        <label>Additional processing:</label><br>
         <span style="margin-left: 20px;">
-            <input type="checkbox" name="processing[]" value="Eviscéré"> Eviscéré
-            <input type="checkbox" name="processing[]" value="Etêté"> Etêté
-            <input type="checkbox" name="processing[]" value="Equeté"> Equeté
+            <input type="checkbox" name="processing_eviscere_${fishCount}[]" value="Eviscéré"> Eviscéré
+            <input type="checkbox" name="processing_etete_${fishCount}[]" value="Etêté"> Etêté
+            <input type="checkbox" name="processing_equete_${fishCount}[]" value="Equeté"> Equeté
         </span><br>
 
         <br>
@@ -272,42 +276,37 @@
         .catch(error => console.error("Error fetching species:", error));
 }
 
-        
-        function saveFishData(fishNumber) {
-    var formData = new FormData();
-    formData.append('port', document.getElementsByName('port')[0].value);
-    formData.append('enqueteur', document.getElementsByName('enqueteur')[0].value);
-    formData.append('entreprise', document.getElementsByName('entreprise')[0].value);
-    formData.append('adresse', document.getElementsByName('adresse')[0].value);
-    formData.append('telephone', document.getElementsByName('telephone')[0].value);
-    formData.append('qualite', document.getElementsByName('qualite')[0].value);
-    formData.append('duree', document.getElementsByName('duree')[0].value);
-    formData.append('table1_answers', JSON.stringify(getTable1Answers()));
-    formData.append('table2_answers', JSON.stringify(getTable2Answers()));
-    formData.append('clients', JSON.stringify(getSelectedClients()));
-    formData.append('autres_clients', document.getElementsByName('autres_clients')[0].value);
 
-    // Fish data
-    formData.append('species', document.getElementsByName('species[]')[fishNumber - 1].value);
-    formData.append('processing', JSON.stringify(getFishProcessing(fishNumber)));
-    formData.append('size_cm', document.getElementsByName('size_cm[]')[fishNumber - 1].value);
-    formData.append('size_g', document.getElementsByName('size_g[]')[fishNumber - 1].value);
-    formData.append('category', JSON.stringify(getFishCategory(fishNumber)));
-    
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'save_fish.php', true);
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            alert(xhr.responseText); // Display success message
-        } else {
-            alert('Error occurred. Please try again.'); // Display error message
+
+        
+function saveFishData(fishNumber) {
+    var formData = new FormData(document.querySelector('form'));
+
+    fetch('save_survey.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
-    };
-    xhr.onerror = function () {
-        alert('Error occurred. Please try again.'); // Display error message
-    };
-    xhr.send(formData);
+        return response.text();
+    })
+    .then(data => {
+        console.log(data); // This will log the response from save_survey.php
+        // Optionally, you can perform actions after successful saving
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Optionally, you can handle errors here
+    });
 }
+
+
+
+
+
+
 
 // Helper functions to get data from the form
 function getTable1Answers() {
@@ -339,10 +338,14 @@ function getSelectedClients() {
 function getFishProcessing(fishNumber) {
     var processing = [];
     document.querySelectorAll('input[name="processing[]"]:checked').forEach(function(input) {
-        processing.push(input.value);
+        // Check if the current input belongs to the current fish
+        if (input.closest('.fish-fields').querySelector('select[name="species[]"]').selectedIndex === fishNumber - 1) {
+            processing.push(input.value);
+        }
     });
     return processing;
 }
+
 
 function getFishCategory(fishNumber) {
     var category = [];
