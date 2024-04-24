@@ -230,36 +230,95 @@
             <button type="button" class="btn btn-primary mb-3" onclick="addFishField()">
                 <i class="fas fa-plus"></i> Add Fish
             </button><br>
+        
+                <!-- Submit Fish button -->
+            <button type="button" class="btn btn-primary mt-3" onclick="saveFishData()">
+                Submit Fish
+            </button>
     
         </form>
     </div>
 
     <script>
 
+
+function saveFish(button) {
+    var fishField = button.parentNode;
+    // Disable all input fields in the fish field except buttons
+    var inputs = fishField.querySelectorAll('input, select, textarea');
+    inputs.forEach(function(input) {
+        if (input.nodeName !== 'BUTTON') {
+            input.disabled = true;
+        }
+    });
+    // Disable save button and enable edit button
+    button.disabled = true;
+    fishField.querySelector('.btn-warning').disabled = false;
+}
+
+function editFish(button) {
+    var fishField = button.parentNode;
+    // Enable all input fields in the fish field
+    var inputs = fishField.querySelectorAll('input, select, textarea');
+    inputs.forEach(function(input) {
+        input.disabled = false;
+    });
+    // Enable save button and disable edit button
+    fishField.querySelector('.btn-success').disabled = false;
+    button.disabled = true;
+}
+
+function deleteFish(button) {
+    var fishField = button.parentNode;
+    var fishContainer = fishField.parentNode;
+    // Remove the fish field from the DOM
+    fishField.parentNode.removeChild(fishField);
+    // Reorganize the remaining fish fields if needed and update fish count
+    var fishFields = fishContainer.querySelectorAll('.fish-fields');
+    fishFields.forEach(function(field, index) {
+        var fishNumber = index + 1;
+        field.querySelector('h5').textContent = 'Fish ' + fishNumber;
+        // Update input names with the new fish number
+        var inputs = field.querySelectorAll('input, select, textarea');
+        inputs.forEach(function(input) {
+            var name = input.getAttribute('name');
+            if (name) {
+                input.setAttribute('name', name.replace(/\d+/, fishNumber));
+            }
+        });
+    });
+}
+
+
+
+
+
 var fishCount = 1;
 // Object to store the number of categories for each fish
 var categoryCounts = {};
 
 // Function to add category fields dynamically
-function addCategoryField(fishNumber) {
-    if (!categoryCounts[fishNumber]) {
-        categoryCounts[fishNumber] = 1;
-    } else {
-        categoryCounts[fishNumber]++;
-    }
-    
+function addCategoryFields(fishNumber, numCategories) {
     var container = document.getElementById(`categories_${fishNumber}`);
-    var categoryField = document.createElement("div");
-    categoryField.innerHTML = `
-        <label for="category">Catégorie ${categoryCounts[fishNumber]}:</label><br>
-        <input type="text" name="category_${fishNumber}[]" class="form-control" required><br>
-    `;
-    container.appendChild(categoryField);
+    for (var i = 0; i < numCategories; i++) {
+        var categoryField = document.createElement("div");
+        categoryField.innerHTML = `
+            <label for="category">Catégorie ${i + 1}:</label><br>
+            <input type="text" name="category_${fishNumber}[]" class="form-control" required><br>
+        `;
+        container.appendChild(categoryField);
+    }
+    // Hide the "Add Category" button
+    var addCategoryButton = document.getElementById(`addCategoryButton_${fishNumber}`);
+    addCategoryButton.style.display = 'none';
+    // Disable the "Number of Categories" input field
+    var numCategoriesInput = document.getElementById(`numCategories_${fishNumber}`);
+    numCategoriesInput.disabled = true;
 }
 
 // Function to toggle measurement input field visibility
 function toggleMeasurementField(select) {
-    var measurementField = document.getElementById("measurementField");
+    var measurementField = select.closest('.fish-fields').querySelector('.measurement-field');
     if (select.value === "taille_cm" || select.value === "poids_g" || select.value === "moule") {
         measurementField.style.display = "block";
     } else {
@@ -267,13 +326,13 @@ function toggleMeasurementField(select) {
     }
 }
 
-
 // Function to add a new fish field
 function addFishField() {
     var container = document.getElementById("fishContainer");
     var fishField = document.createElement("div");
     fishField.classList.add("fish-fields");
     fishField.innerHTML = `
+        <input type="hidden" name="fishCount" value="${fishCount}"> <!-- Add hidden input for fishCount -->
         <h5>Fish ${fishCount}</h5>
         <label for="species">Species:</label>
         <select name="species[]" class="form-control" onchange="showFishImage(this)" required onfocus="updateSpeciesOptions(this)">
@@ -306,30 +365,32 @@ function addFishField() {
             <option value="poids_g">Poids (g)</option>
             <option value="moule">Moule</option>
         </select><br>
-        <div id="measurementField" style="display: none;">
+        <div class="measurement-field" style="display: none;">
             <label for="measurementValue">Valeur:</label><br>
             <input type="number" name="measurementValue[]" class="form-control" required><br>
         </div>
 
         <div id="categories_${fishCount}"></div>
-
-        <!-- Add Category button -->
-        <button type="button" class="btn btn-info" onclick="addCategoryField(${fishCount})">
-            Add Category
-        </button>
+        <div id="addCategoryContainer_${fishCount}">
+            <label for="numCategories">Number of Categories:</label>
+            <input type="number" id="numCategories_${fishCount}" class="form-control" min="1" value="1">
+            <button type="button" class="btn btn-info" onclick="addCategoryFields(${fishCount}, parseInt(document.getElementById('numCategories_${fishCount}').value))" id="addCategoryButton_${fishCount}">
+                Add Category
+            </button>
+        </div>
 
         <br> <!-- Line break for spacing -->
-
-        <!-- Submit Fish button -->
-        <button type="button" class="btn btn-primary mt-3" onclick="saveFishData(${fishCount})">
-            Submit Fish
-        </button>
+        <button class="btn btn-success" onclick="saveFish(this)">Save</button>
+        <button class="btn btn-warning" onclick="editFish(this)">Edit</button>
+        <button class="btn btn-danger" onclick="deleteFish(this)">Delete</button>
     `;
     container.appendChild(fishField);
     fishCount++;
 
     var selectElement = fishField.querySelector("select[name='species[]']");
     updateSpeciesOptions(selectElement); // Initial update
+
+    var selectedSpecies = new Set();
 
     selectElement.addEventListener('change', function() {
         if (this.value === '') {
@@ -375,34 +436,6 @@ function updateSpeciesOptions(selectElement) {
         })
         .catch(error => console.error("Error fetching species:", error));
 }
-
-
-function saveFishData(fishNumber) {
-    var formData = new FormData(document.querySelector('form'));
-
-    fetch('save_survey.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.text();
-    })
-    .then(data => {
-        console.log(data); // This will log the response from save_survey.php
-        // Optionally, you can perform actions after successful saving
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        // Optionally, you can handle errors here
-    });
-}
-
-
-
-
         
 function saveFishData(fishNumber) {
     var formData = new FormData(document.querySelector('form'));
@@ -426,11 +459,6 @@ function saveFishData(fishNumber) {
         // Optionally, you can handle errors here
     });
 }
-
-
-
-
-
 
 
 // Helper functions to get data from the form
