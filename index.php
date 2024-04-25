@@ -47,10 +47,17 @@
         .btn-primary:hover {
             background-color: #0056b3;
         }
+        .logo {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            width: 150px; /* Adjust as needed */
+            height: auto; /* Maintain aspect ratio */
+        }
         </style>
 </head>
 <body>
-
+<img src="inrh_logo.png" alt="INRH Logo" class="logo">
 <div class="container">
     <h2>Login</h2>
     <div id="message"></div> <!-- To display error messages -->

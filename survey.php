@@ -80,9 +80,18 @@
         .grid-table tr:hover {
             background-color: #e2e2e2;
         }
+
+        .logo {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            width: 150px; /* Adjust as needed */
+            height: auto; /* Maintain aspect ratio */
+        }
     </style>
 </head>
 <body>
+    <img src="inrh_logo.png" alt="INRH Logo" class="logo">
     <div class="container">
         <h2 class="text-center mb-4">Create Survey Database</h2>
         <form method="post" action="save_survey.php">
@@ -297,24 +306,33 @@ var fishCount = 1;
 // Object to store the number of categories for each fish
 var categoryCounts = {};
 
-// Function to add category fields dynamically
-function addCategoryFields(fishNumber, numCategories) {
+// Add Category Functionality
+function addCategoryField(fishNumber) {
     var container = document.getElementById(`categories_${fishNumber}`);
-    for (var i = 0; i < numCategories; i++) {
+    var numCategories = container.querySelectorAll('.category-field').length + 1;
+    if (numCategories <= 10) { // Limiting to 10 categories
         var categoryField = document.createElement("div");
+        categoryField.classList.add("category-field");
+        var categoryNumber = numCategories; // Start with the highest number
         categoryField.innerHTML = `
-            <label for="category">Catégorie ${i + 1}:</label><br>
-            <input type="text" name="category_${fishNumber}[]" class="form-control" required><br>
+            <label for="category">Catégorie ${categoryNumber}: <button type="button" class="btn btn-danger btn-sm" onclick="deleteCategory(this)">X</button></label>
+            <input type="number" name="category_${fishNumber}[]" class="form-control" required>
         `;
         container.appendChild(categoryField);
+        // Decrement category number for the next category
+        numCategories--;
+    } else {
+        alert("Maximum 10 categories allowed.");
     }
-    // Hide the "Add Category" button
-    var addCategoryButton = document.getElementById(`addCategoryButton_${fishNumber}`);
-    addCategoryButton.style.display = 'none';
-    // Disable the "Number of Categories" input field
-    var numCategoriesInput = document.getElementById(`numCategories_${fishNumber}`);
-    numCategoriesInput.disabled = true;
 }
+
+
+// Delete Category Functionality
+function deleteCategory(button) {
+    var categoryField = button.parentNode;
+    categoryField.parentNode.removeChild(categoryField);
+}
+
 
 // Function to toggle measurement input field visibility
 function toggleMeasurementField(select) {
@@ -370,14 +388,26 @@ function addFishField() {
             <input type="number" name="measurementValue[]" class="form-control" required><br>
         </div>
 
-        <div id="categories_${fishCount}"></div>
-        <div id="addCategoryContainer_${fishCount}">
-            <label for="numCategories">Number of Categories:</label>
-            <input type="number" id="numCategories_${fishCount}" class="form-control" min="1" value="1">
-            <button type="button" class="btn btn-info" onclick="addCategoryFields(${fishCount}, parseInt(document.getElementById('numCategories_${fishCount}').value))" id="addCategoryButton_${fishCount}">
-                Add Category
-            </button>
+        <!-- Inside the fish field template -->
+<div class="form-group">
+    <label>Classes de tailles dans le marché local</label><br>
+    <div id="categories_${fishCount}">
+        <div class="category-field">
+            <label for="category">Catégorie 1: <button type="button" class="btn btn-danger btn-sm" onclick="deleteCategory(this)">X</button></label>
+            <input type="number" name="category_${fishCount}[]" class="form-control" required>
         </div>
+        <div class="category-field">
+            <label for="category">Catégorie 2: <button type="button" class="btn btn-danger btn-sm" onclick="deleteCategory(this)">X</button></label>
+            <input type="number" name="category_${fishCount}[]" class="form-control" required>
+        </div>
+        <div class="category-field">
+            <label for="category">Catégorie 3: <button type="button" class="btn btn-danger btn-sm" onclick="deleteCategory(this)">X</button></label>
+            <input type="number" name="category_${fishCount}[]" class="form-control" required>
+        </div>
+    </div>
+    <button type="button" class="btn btn-info btn-sm mt-2" onclick="addCategoryField(${fishCount})">Add Category</button>
+</div>
+
 
         <br> <!-- Line break for spacing -->
         <button class="btn btn-success" onclick="saveFish(this)">Save</button>
