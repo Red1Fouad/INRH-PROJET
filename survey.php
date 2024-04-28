@@ -6,6 +6,15 @@
     <title>INRH SURVEY</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script>
+        // Initialize Select2
+        $(document).ready(function () {
+            $("#species").select2();
+        });
+    </script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -353,12 +362,25 @@ function addFishField() {
         <input type="hidden" name="fishCount" value="${fishCount}"> <!-- Add hidden input for fishCount -->
         <h5>Fish ${fishCount}</h5>
         <label for="species">Species:</label>
-        <select name="species[]" class="form-control" onchange="showFishImage(this)" required onfocus="updateSpeciesOptions(this)">
-            <option value="">Select Species</option>
-        </select>
+        <form action="" method="post">
+            <select class='speciesSelect' name="species" style='width: 500px;' onchange="showFishImage(this)">
+                <option value='0'>---Choose species</option>
+                <?php
+                // Read options from species.txt file
+                $options = file("species.txt", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+                foreach ($options as $key => $value) {
+                    $optionValue = $key + 1;
+                    echo "<option value='$optionValue'>$value</option>";
+                }
+                ?>
+            </select>
+        </form>
         
         <img class="fish-image" src="" alt="Fish Image">
         
+        <br> <!-- Line break for spacing -->
+        <br> <!-- Line break for spacing -->
+
         <label>Processing:</label><br>
         <input type="radio" name="processing_${fishCount}[]"  value="Entier"> Entier
         <span style="margin-right: 10px;"></span>
@@ -415,9 +437,13 @@ function addFishField() {
         <button class="btn btn-danger" onclick="deleteFish(this)">Delete</button>
     `;
     container.appendChild(fishField);
+        // Initialize Select2
+    $(document).ready(function () {
+    $(".speciesSelect").select2();
+    });
     fishCount++;
 
-    var selectElement = fishField.querySelector("select[name='species[]']");
+    var selectElement = fishField.querySelector(".speciesSelect");
     updateSpeciesOptions(selectElement); // Initial update
 
     var selectedSpecies = new Set();
@@ -449,6 +475,7 @@ function addFishField() {
     });
 
 }
+
 
 // Function to update species options
 function updateSpeciesOptions(selectElement) {
@@ -539,23 +566,25 @@ function getFishCategory(fishNumber) {
 }
 
 
-        function showFishImage(select) {
-            var selectedOption = select.value;
-            var fishImage = select.parentNode.querySelector(".fish-image");
-            switch (selectedOption) {
-                case "Sardine":
-                    fishImage.src = "fish.webp";
-                    break;
-                case "Shark":
-                    fishImage.src = "fish2.jpg";
-                    break;
-                case "Merlo":
-                    fishImage.src = "fish3.jpg";
-                    break;
-                default:
-                    fishImage.src = "fish.webp"; // Clear image if no species is selected
-            }
-        }
+function showFishImage(selectElement) {
+    var speciesIndex = selectElement.value;
+    var imageElement = selectElement.closest('.fish-fields').querySelector('.fish-image');
+    var imagePath = "images/species/" + speciesIndex + ".jpg";
+    
+    // Check if the image exists
+    var image = new Image();
+    image.onload = function() {
+        // If the image exists, set the image source
+        imageElement.src = imagePath;
+    };
+    image.onerror = function() {
+        // If the image does not exist, set a fallback image source
+        imageElement.src = "images/404.jpg";
+    };
+    image.src = imagePath;
+}
+
+
         // Enable/disable text field based on checkbox selection
     document.getElementById("autresCheckbox").addEventListener("change", function() {
         var autresText = document.getElementById("autresText");
