@@ -27,7 +27,7 @@
 
     $table1_columns = array(
         "Toutes",
-        "L'essentiel",
+        "Essentiel",
         "Aucun"
     );
 

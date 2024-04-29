@@ -182,7 +182,7 @@
                 <tr>
                     <th></th>
                     <th>Toutes</th>
-                    <th>L'essentiel</th>
+                    <th>Essentiel</th>
                     <th>Aucun</th>
                 </tr>
                 <?php
@@ -197,7 +197,7 @@
                     echo "<tr>";
                     echo "<td>$row</td>";
                     echo "<td><input type='radio' name='table1_answers[$row]' value='Toutes'></td>";
-                    echo "<td><input type='radio' name='table1_answers[$row]' value='L'essentiel'></td>";
+                    echo "<td><input type='radio' name='table1_answers[$row]' value='Essentiel'></td>";
                     echo "<td><input type='radio' name='table1_answers[$row]' value='Aucun'></td>";
                     echo "</tr>";
                 }
@@ -567,6 +567,7 @@ function saveFishData() {
         // Optionally, you can handle errors here
     });
 }
+
 
 
 

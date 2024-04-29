@@ -15,7 +15,13 @@ try {
         qualite TEXT,
         duree TEXT,
         clients TEXT,
-        autres_clients TEXT
+        autres_clients TEXT,
+        table1_identification TEXT,
+        table1_calibre TEXT,
+        table1_qualite TEXT,
+        table2_espece TEXT,
+        table2_taille TEXT,
+        table2_qualite TEXT
     )");
 
     // Create fish_survey table if it doesn't exist
@@ -48,6 +54,16 @@ try {
         $clients = implode(', ', $_POST['clients']);
         $autres_clients = isset($_POST['autres_clients']) ? $_POST['autres_clients'] : '';
 
+        // Retrieve answers from Table 1
+        $table1_identification = $_POST['table1_answers']['Identification'];
+        $table1_calibre = $_POST['table1_answers']['Calibre ou taille commerciale'];
+        $table1_qualite = $_POST['table1_answers']['Qualité du poisson'];
+        
+        // Retrieve answers from Table 2
+        $table2_espece = $_POST['table2_answers']['Espèce'];
+        $table2_taille = $_POST['table2_answers']['Taille'];
+        $table2_qualite = $_POST['table2_answers']['Qualité'];
+
         // Check if main survey exists based on the provided data
         $stmt = $db->prepare("SELECT id FROM main_survey WHERE port = ? AND date = ?");
         $stmt->execute([$port, $date]);
@@ -55,9 +71,9 @@ try {
 
         // Insert main survey data if it doesn't exist
         if (!$main_survey) {
-            $stmt = $db->prepare("INSERT INTO main_survey (date, port, enqueteur, entreprise, adresse, telephone, qualite, duree, clients, autres_clients) 
-                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$date, $port, $enqueteur, $entreprise, $adresse, $telephone, $qualite, $duree, $clients, $autres_clients]);
+            $stmt = $db->prepare("INSERT INTO main_survey (date, port, enqueteur, entreprise, adresse, telephone, qualite, duree, clients, autres_clients, table1_identification, table1_calibre, table1_qualite, table2_espece, table2_taille, table2_qualite) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$date, $port, $enqueteur, $entreprise, $adresse, $telephone, $qualite, $duree, $clients, $autres_clients, $table1_identification, $table1_calibre, $table1_qualite, $table2_espece, $table2_taille, $table2_qualite]);
             $main_survey_id = $db->lastInsertId();
         } else {
             $main_survey_id = $main_survey['id'];
