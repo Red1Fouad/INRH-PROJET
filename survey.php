@@ -272,6 +272,12 @@ function saveFish(button) {
     // Disable save button and enable edit button
     button.disabled = true;
     fishField.querySelector('.btn-warning').disabled = false;
+
+    // Hide delete buttons for categories
+    var deleteCategoryButtons = fishField.querySelectorAll('.delete-category');
+    deleteCategoryButtons.forEach(function(button) {
+        button.style.display = 'none';
+    });
 }
 
 function editFish(button) {
@@ -284,7 +290,22 @@ function editFish(button) {
     // Enable save button and disable edit button
     fishField.querySelector('.btn-success').disabled = false;
     button.disabled = true;
+
+    // Show delete buttons for categories
+    var deleteCategoryButtons = fishField.querySelectorAll('.delete-category');
+    deleteCategoryButtons.forEach(function(button) {
+        button.style.display = 'inline'; // Or whatever the initial display property was
+    });
 }
+
+// Disable edit buttons initially
+document.querySelectorAll('.btn-warning').forEach(function(button) {
+    button.disabled = true;
+});
+
+
+
+
 
 function deleteFish(button) {
     var fishField = button.parentNode;
@@ -324,7 +345,7 @@ function addCategoryField(fishNumber) {
         categoryField.classList.add("category-field");
         var categoryNumber = numCategories; // Start with the highest number
         categoryField.innerHTML = `
-            <label for="category">Catégorie ${categoryNumber}: <button type="button" class="btn btn-danger btn-sm" onclick="deleteCategory(this)">X</button></label>
+            <label for="category">Catégorie ${categoryNumber}: <button type="button" class="btn btn-danger btn-sm delete-category">X</button></label>
             <input type="number" name="category_${fishNumber}[]" class="form-control" required>
         `;
         container.appendChild(categoryField);
@@ -333,16 +354,37 @@ function addCategoryField(fishNumber) {
     } else {
         alert("Maximum 7 categories allowed.");
     }
+    // Re-setup the event handlers for delete buttons
+    setupDeleteCategoryButtons();
 }
 
+document.addEventListener('click', function(event) {
+    if (event.target && event.target.matches('.delete-category')) {
+        deleteCategory(event.target);
+    }
+});
 
-// Delete Category Functionality
+function setupDeleteCategoryButtons() {
+    document.querySelectorAll('.categories-container').forEach(container => {
+        container.addEventListener('click', function(event) {
+            if (event.target && event.target.matches('.delete-category')) {
+                deleteCategory(event.target);
+            }
+        });
+    });
+}
+
 function deleteCategory(button) {
     var categoryField = button.parentNode.parentNode; // Navigate up to the parent div that contains both label and input
-    categoryField.parentNode.removeChild(categoryField); // Remove the parent div
+    var categoryContainer = categoryField.parentNode;
+    categoryContainer.removeChild(categoryField); // Remove the parent div
+
+    // After deletion, update the data-category-index attribute of the remaining delete buttons
+    var deleteButtons = categoryContainer.querySelectorAll('.delete-category');
+    deleteButtons.forEach(function(deleteButton, index) {
+        deleteButton.setAttribute('data-category-index', index + 1);
+    });
 }
-
-
 
 // Function to toggle measurement input field visibility
 function toggleMeasurementField(select) {
@@ -438,6 +480,9 @@ function addFishField() {
         <button class="btn btn-danger" onclick="deleteFish(this)">Delete</button>
     `;
     container.appendChild(fishField);
+
+    var editButton = fishField.querySelector('.btn-warning');
+    editButton.disabled = true;
         // Initialize Select2
     $(document).ready(function () {
     $(".speciesSelect").select2();
