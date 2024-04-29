@@ -540,8 +540,13 @@ function updateSpeciesOptions(selectElement) {
         .catch(error => console.error("Error fetching species:", error));
 }
         
-function saveFishData(fishNumber) {
+function saveFishData() {
     var formData = new FormData(document.querySelector('form'));
+
+    // Extract species data from select elements and add them to the formData
+    document.querySelectorAll('.speciesSelect').forEach(function(select, index) {
+        formData.append('species[]', select.value);
+    });
 
     fetch('save_survey.php', {
         method: 'POST',
@@ -562,6 +567,7 @@ function saveFishData(fishNumber) {
         // Optionally, you can handle errors here
     });
 }
+
 
 
 // Helper functions to get data from the form
