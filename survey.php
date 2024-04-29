@@ -319,7 +319,7 @@ var categoryCounts = {};
 function addCategoryField(fishNumber) {
     var container = document.getElementById(`categories_${fishNumber}`);
     var numCategories = container.querySelectorAll('.category-field').length + 1;
-    if (numCategories <= 10) { // Limiting to 10 categories
+    if (numCategories <= 7) { // Limiting to 10 categories
         var categoryField = document.createElement("div");
         categoryField.classList.add("category-field");
         var categoryNumber = numCategories; // Start with the highest number
@@ -331,16 +331,17 @@ function addCategoryField(fishNumber) {
         // Decrement category number for the next category
         numCategories--;
     } else {
-        alert("Maximum 10 categories allowed.");
+        alert("Maximum 7 categories allowed.");
     }
 }
 
 
 // Delete Category Functionality
 function deleteCategory(button) {
-    var categoryField = button.parentNode;
-    categoryField.parentNode.removeChild(categoryField);
+    var categoryField = button.parentNode.parentNode; // Navigate up to the parent div that contains both label and input
+    categoryField.parentNode.removeChild(categoryField); // Remove the parent div
 }
+
 
 
 // Function to toggle measurement input field visibility
