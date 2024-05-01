@@ -89,7 +89,6 @@
         .grid-table tr:hover {
             background-color: #e2e2e2;
         }
-
         .logo {
             position: absolute;
             top: 30px;
@@ -97,10 +96,22 @@
             width: 150px; /* Adjust as needed */
             height: auto; /* Maintain aspect ratio */
         }
+        .survey-header {
+            position: relative;
+            margin-bottom: 20px; /* Adjust spacing between header and content */
+        }
+        .survey-header .btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
     </style>
 </head>
 <body>
     <img src="inrh_logo.png" alt="INRH Logo" class="logo">
+    <div class="survey-header">
+        <a href="stats.php" class="btn btn-primary">Stats</a>
+    </div>
     <div class="container">
         <h2 class="text-center mb-4">INRH SURVEY</h2>
         <form method="post" action="save_survey.php">
@@ -340,12 +351,12 @@ var categoryCounts = {};
 function addCategoryField(fishNumber) {
     var container = document.getElementById(`categories_${fishNumber}`);
     var numCategories = container.querySelectorAll('.category-field').length + 1;
-    if (numCategories <= 7) { // Limiting to 10 categories
+    if (numCategories <= 7) { // Limiting to 7 categories
         var categoryField = document.createElement("div");
         categoryField.classList.add("category-field");
         var categoryNumber = numCategories; // Start with the highest number
         categoryField.innerHTML = `
-            <label for="category">Catégorie ${categoryNumber}: <button type="button" class="btn btn-danger btn-sm delete-category">X</button></label>
+            <label for="category">Category ${categoryNumber}: <button type="button" class="btn btn-danger btn-sm delete-category">X</button></label>
             <input type="number" name="category_${fishNumber}[]" class="form-control" required>
         `;
         container.appendChild(categoryField);
@@ -357,6 +368,7 @@ function addCategoryField(fishNumber) {
     // Re-setup the event handlers for delete buttons
     setupDeleteCategoryButtons();
 }
+
 
 document.addEventListener('click', function(event) {
     if (event.target && event.target.matches('.delete-category')) {
@@ -454,24 +466,24 @@ function addFishField() {
         </div>
 
         <!-- Inside the fish field template -->
-<div class="form-group">
-    <label>Classes de tailles dans le marché local</label><br>
-    <div id="categories_${fishCount}">
-        <div class="category-field">
-            <label for="category">Catégorie 1: <button type="button" class="btn btn-danger btn-sm" onclick="deleteCategory(this)">X</button></label>
-            <input type="number" name="category_${fishCount}[]" class="form-control" required>
+        <div class="form-group">
+            <label>Classes de tailles dans le marché local</label><br>
+            <div id="categories_${fishCount}">
+                <div class="category-field">
+                    <label for="category">Catégorie 1: <button type="button" class="btn btn-danger btn-sm" onclick="deleteCategory(this)">X</button></label>
+                    <input type="number" name="category_${fishCount}[]" class="form-control" required>
+                </div>
+                <div class="category-field">
+                    <label for="category">Catégorie 2: <button type="button" class="btn btn-danger btn-sm" onclick="deleteCategory(this)">X</button></label>
+                    <input type="number" name="category_${fishCount}[]" class="form-control" required>
+                </div>
+                <div class="category-field">
+                    <label for="category">Catégorie 3: <button type="button" class="btn btn-danger btn-sm" onclick="deleteCategory(this)">X</button></label>
+                    <input type="number" name="category_${fishCount}[]" class="form-control" required>
+                </div>
+            </div>
+            <button type="button" class="btn btn-info btn-sm mt-2" onclick="addCategoryField(${fishCount})">Add Category</button>
         </div>
-        <div class="category-field">
-            <label for="category">Catégorie 2: <button type="button" class="btn btn-danger btn-sm" onclick="deleteCategory(this)">X</button></label>
-            <input type="number" name="category_${fishCount}[]" class="form-control" required>
-        </div>
-        <div class="category-field">
-            <label for="category">Catégorie 3: <button type="button" class="btn btn-danger btn-sm" onclick="deleteCategory(this)">X</button></label>
-            <input type="number" name="category_${fishCount}[]" class="form-control" required>
-        </div>
-    </div>
-    <button type="button" class="btn btn-info btn-sm mt-2" onclick="addCategoryField(${fishCount})">Add Category</button>
-</div>
 
 
         <br> <!-- Line break for spacing -->
@@ -548,6 +560,26 @@ function saveFishData() {
         formData.append('species[]', select.value);
     });
 
+    // Extract measurement data and add them to the formData
+    document.querySelectorAll('select[name="measurementType[]"]').forEach(function(select, index) {
+        var measurementType = select.value;
+        var measurementValue = select.closest('.fish-fields').querySelector('input[name="measurementValue[]"]').value;
+        formData.append('measurementType[]', measurementType);
+        formData.append('measurementValue[]', measurementValue);
+    });
+
+    // Extract processing data and add them to the formData
+    document.querySelectorAll('input[name^="processing"]').forEach(function(input) {
+        if (input.checked) {
+            formData.append(input.name, input.value);
+        }
+    });
+
+    // Extract categories data and add them to the formData
+    document.querySelectorAll('input[name^="category"]').forEach(function(input) {
+        formData.append(input.name, input.value);
+    });
+
     fetch('save_survey.php', {
         method: 'POST',
         body: formData
@@ -567,9 +599,6 @@ function saveFishData() {
         // Optionally, you can handle errors here
     });
 }
-
-
-
 
 // Helper functions to get data from the form
 function getTable1Answers() {

@@ -14,14 +14,14 @@ try {
         telephone TEXT,
         qualite TEXT,
         duree TEXT,
-        clients TEXT,
-        autres_clients TEXT,
         table1_identification TEXT,
         table1_calibre TEXT,
         table1_qualite TEXT,
         table2_espece TEXT,
         table2_taille TEXT,
-        table2_qualite TEXT
+        table2_qualite TEXT,
+        clients TEXT,
+        autres_clients TEXT
     )");
 
     // Create fish_survey table if it doesn't exist
@@ -29,13 +29,22 @@ try {
         id INTEGER PRIMARY KEY,
         date TEXT,
         species TEXT,
-        processing_radio TEXT,
-        processing_checkboxes TEXT,
-        size_cm TEXT,
-        size_g TEXT,
-        category TEXT,
         main_survey_id INTEGER,
+        processing TEXT,
+        eviscere TEXT,
+        etete TEXT,
+        equete TEXT,
+        measurement_type TEXT,
+        measurement_value TEXT,
         FOREIGN KEY (main_survey_id) REFERENCES main_survey(id)
+    )");
+
+    // Create category_survey table if it doesn't exist
+    $db->exec("CREATE TABLE IF NOT EXISTS category_survey (
+        id INTEGER PRIMARY KEY,
+        category_name TEXT,
+        fish_survey_id INTEGER,
+        FOREIGN KEY (fish_survey_id) REFERENCES fish_survey(id)
     )");
 
     // Check if required fields are set
@@ -71,34 +80,54 @@ try {
 
         // Insert main survey data if it doesn't exist
         if (!$main_survey) {
-            $stmt = $db->prepare("INSERT INTO main_survey (date, port, enqueteur, entreprise, adresse, telephone, qualite, duree, clients, autres_clients, table1_identification, table1_calibre, table1_qualite, table2_espece, table2_taille, table2_qualite) 
+            $stmt = $db->prepare("INSERT INTO main_survey (date, port, enqueteur, entreprise, adresse, telephone, qualite, duree, table1_identification, table1_calibre, table1_qualite, table2_espece, table2_taille, table2_qualite, clients, autres_clients) 
                             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$date, $port, $enqueteur, $entreprise, $adresse, $telephone, $qualite, $duree, $clients, $autres_clients, $table1_identification, $table1_calibre, $table1_qualite, $table2_espece, $table2_taille, $table2_qualite]);
+            $stmt->execute([$date, $port, $enqueteur, $entreprise, $adresse, $telephone, $qualite, $duree, $table1_identification, $table1_calibre, $table1_qualite, $table2_espece, $table2_taille, $table2_qualite, $clients, $autres_clients]);
             $main_survey_id = $db->lastInsertId();
         } else {
             $main_survey_id = $main_survey['id'];
         }
 
         // Insert fish survey data into the fish_survey table
-        foreach ($_POST['species'] as $key => $species) {
-            $processing_radio = isset($_POST['processing_radio'][$key]) ? $_POST['processing_radio'][$key] : '';
-            $processing_checkboxes = isset($_POST['processing_checkboxes'][$key]) ? implode(', ', $_POST['processing_checkboxes'][$key]) : '';
-            $size_cm = isset($_POST['size_cm'][$key]) ? $_POST['size_cm'][$key] : '';
-            $size_g = isset($_POST['size_g'][$key]) ? $_POST['size_g'][$key] : '';
-            $category = isset($_POST['category'][$key]) ? $_POST['category'][$key] : '';
+        if (isset($_POST['species']) && is_array($_POST['species'])) {
+            foreach ($_POST['species'] as $key => $species) {
+                // Retrieve processing data
+                $processing = isset($_POST["processing"][$key]) ? $_POST["processing"][$key] : '';
+                // Retrieve measurement data
+                $measurement_type = isset($_POST["measurementType"][$key]) ? $_POST["measurementType"][$key] : '';
+                $measurement_value = isset($_POST["measurementValue"][$key]) ? $_POST["measurementValue"][$key] : '';
 
-            $stmt = $db->prepare("INSERT INTO fish_survey (date, species, processing_radio, processing_checkboxes, size_cm, size_g, category, main_survey_id) 
-                                VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$date, $species, $processing_radio, $processing_checkboxes, $size_cm, $size_g, $category, $main_survey_id]);
+                // Retrieve additional processing data
+                $eviscere = isset($_POST["eviscere"][$key]) ? 'Yes' : 'No';
+                $etete = isset($_POST["etete"][$key]) ? 'Yes' : 'No';
+                $equete = isset($_POST["equete"][$key]) ? 'Yes' : 'No';
+
+                $stmt = $db->prepare("INSERT INTO fish_survey (date, species, main_survey_id, processing, eviscere, etete, equete, measurement_type, measurement_value) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$date, $species, $main_survey_id, $processing, $eviscere, $etete, $equete, $measurement_type, $measurement_value]);
+                $fish_survey_id = $db->lastInsertId();
+
+                // Insert category survey data
+                if (isset($_POST["categories"][$key]) && is_array($_POST["categories"][$key])) {
+                    $categories = $_POST["categories"][$key];
+                    foreach ($categories as $category_name) {
+                        $stmt = $db->prepare("INSERT INTO category_survey (category_name, fish_survey_id) 
+                                VALUES (?, ?)");
+                        $stmt->execute([$category_name, $fish_survey_id]);
+                    }
+                } else {
+                    echo "Error: No categories data provided.";
+                }
+            }
+        } else {
+            echo "Error: No species data provided.";
         }
+
 
         echo "Survey data saved successfully.";
     } else {
         echo "Error: Required fields are missing.";
     }
-
-    // Close the database connection
-    $db = null;
 } catch (PDOException $e) {
-    die("Error: " . $e->getMessage());
+    echo "Error: " . $e->getMessage();
 }
