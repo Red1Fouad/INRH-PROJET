@@ -110,7 +110,7 @@
 <body>
     <img src="inrh_logo.png" alt="INRH Logo" class="logo">
     <div class="survey-header">
-        <a href="stats.php" class="btn btn-primary">Stats</a>
+        <a href="sts.php" class="btn btn-primary">Stats</a>
     </div>
     <div class="container">
         <h2 class="text-center mb-4">INRH SURVEY</h2>
@@ -260,8 +260,8 @@
                 <i class="fas fa-plus"></i> Add Fish
             </button><br>
         
-                <!-- Submit Fish button -->
-            <button type="button" class="btn btn-primary mt-3" onclick="saveFishData()">
+            <!-- Submit Fish button -->
+            <button id="submitFishButton" type="button" class="btn btn-primary mt-3" onclick="saveFishData()" disabled>
                 Submit Fish
             </button>
     
@@ -273,7 +273,29 @@
 
 function saveFish(button) {
     var fishField = button.parentNode;
-    // Disable all input fields in the fish field except buttons
+    var categories = fishField.querySelectorAll('input[name^="category"]');
+    var previousValue = null;
+    var isValid = true;
+
+    categories.forEach(function(input) {
+        var categoryNumber = input.name.split("_")[1];
+        var value = parseInt(input.value);
+        if (!isNaN(value)) {
+            if (previousValue !== null && value > previousValue) {
+                isValid = false;
+                // Show error message
+                alert(`Category ${categoryNumber} should not be bigger than the previous category.`);
+                return;
+            }
+            previousValue = value;
+        }
+    });
+
+    if (!isValid) {
+        return; // Abort save action if any category is bigger than the previous one
+    }
+
+    // If all categories are valid, proceed with saving the fish data
     var inputs = fishField.querySelectorAll('input, select, textarea');
     inputs.forEach(function(input) {
         if (input.nodeName !== 'BUTTON') {
@@ -289,7 +311,11 @@ function saveFish(button) {
     deleteCategoryButtons.forEach(function(button) {
         button.style.display = 'none';
     });
+
+    // Check if all fish fields are saved, and enable "Submit Fish" button accordingly
+    updateSubmitFishButton();
 }
+
 
 function editFish(button) {
     var fishField = button.parentNode;
@@ -307,16 +333,15 @@ function editFish(button) {
     deleteCategoryButtons.forEach(function(button) {
         button.style.display = 'inline'; // Or whatever the initial display property was
     });
+
+    // Check if all fish fields are saved, and enable "Submit Fish" button accordingly
+    updateSubmitFishButton();
 }
 
 // Disable edit buttons initially
 document.querySelectorAll('.btn-warning').forEach(function(button) {
     button.disabled = true;
 });
-
-
-
-
 
 function deleteFish(button) {
     var fishField = button.parentNode;
@@ -338,10 +363,6 @@ function deleteFish(button) {
         });
     });
 }
-
-
-
-
 
 var fishCount = 1;
 // Object to store the number of categories for each fish
@@ -485,8 +506,11 @@ function addFishField() {
             <button type="button" class="btn btn-info btn-sm mt-2" onclick="addCategoryField(${fishCount})">Add Category</button>
         </div>
 
+        <!-- New field for Valeur minimal -->
+        <label for="valeur_minimal">Valeur minimal:</label><br>
+        <input type="number" name="valeur_minimal[]" class="form-control" required><br>
 
-        <br> <!-- Line break for spacing -->
+        <!-- Buttons for saving, editing, and deleting -->
         <button class="btn btn-success" onclick="saveFish(this)">Save</button>
         <button class="btn btn-warning" onclick="editFish(this)">Edit</button>
         <button class="btn btn-danger" onclick="deleteFish(this)">Delete</button>
@@ -495,9 +519,10 @@ function addFishField() {
 
     var editButton = fishField.querySelector('.btn-warning');
     editButton.disabled = true;
-        // Initialize Select2
+    updateSubmitFishButton();
+    // Initialize Select2
     $(document).ready(function () {
-    $(".speciesSelect").select2();
+        $(".speciesSelect").select2();
     });
     fishCount++;
 
@@ -534,6 +559,11 @@ function addFishField() {
 
 }
 
+function updateSubmitFishButton() {
+    var allFieldsSaved = document.querySelectorAll('.fish-fields button.btn-success:disabled').length === document.querySelectorAll('.fish-fields').length;
+    var submitFishButton = document.getElementById('submitFishButton');
+    submitFishButton.disabled = !allFieldsSaved;
+}
 
 // Function to update species options
 function updateSpeciesOptions(selectElement) {
