@@ -166,25 +166,26 @@
             </div>
             
             <div class="form-group">
-                <label for="duree">Durée d'exercice dans le secteur de la pêche (nb d'an):</label><br>
-                <div>
-                    <label><input type="radio" name="duree" value="1"> 1</label>
-                    <label><input type="radio" name="duree" value="2"> 2</label>
-                    <label><input type="radio" name="duree" value="3"> 3</label>
-                    <label><input type="radio" name="duree" value="4"> 4</label>
-                    <label><input type="radio" name="duree" value="5"> 5</label>
-                    <label><input type="radio" name="duree" value="6"> 6</label>
-                    <label><input type="radio" name="duree" value="7"> 7</label>
-                    <label><input type="radio" name="duree" value="8"> 8</label>
-                    <label><input type="radio" name="duree" value="9"> 9</label>
-                    <label><input type="radio" name="duree" value="10"> 10</label>
-                    <label><input type="radio" name="duree" value="11"> 11</label>
-                    <label><input type="radio" name="duree" value="12"> 12</label>
-                    <label><input type="radio" name="duree" value="13"> 13</label>
-                    <label><input type="radio" name="duree" value="14"> 14</label>
-                    <label><input type="radio" name="duree" value="15"> 15</label>
-                    <label><input type="radio" name="duree" value="15+"> 15+</label>
-                </div>
+            <label for="duree">Durée d'exercice dans le secteur de la pêche (nb d'an):</label><br>
+                <select name="duree" class="form-control" required>
+                    <option value="">Sélectionnez la durée</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="15+">15+</option>
+                </select>
             </div>
             
             <!-- Grid for Table 1 -->
@@ -343,26 +344,31 @@ document.querySelectorAll('.btn-warning').forEach(function(button) {
     button.disabled = true;
 });
 
-function deleteFish(button) {
+function resetFish(button) {
     var fishField = button.parentNode;
-    var fishContainer = fishField.parentNode;
-    // Remove the fish field from the DOM
-    fishField.parentNode.removeChild(fishField);
-    // Reorganize the remaining fish fields if needed and update fish count
-    var fishFields = fishContainer.querySelectorAll('.fish-fields');
-    fishFields.forEach(function(field, index) {
-        var fishNumber = index + 1;
-        field.querySelector('h5').textContent = 'Fish ' + fishNumber;
-        // Update input names with the new fish number
-        var inputs = field.querySelectorAll('input, select, textarea');
-        inputs.forEach(function(input) {
-            var name = input.getAttribute('name');
-            if (name) {
-                input.setAttribute('name', name.replace(/\d+/, fishNumber));
-            }
-        });
+    // Enable all input fields in the fish field
+    var inputs = fishField.querySelectorAll('input, select, textarea');
+    inputs.forEach(function(input) {
+        input.disabled = false;
+        if (input.nodeName === 'INPUT') {
+            // Reset the input fields
+            input.value = '';
+        }
     });
+    // Enable save button and disable edit button
+    fishField.querySelector('.btn-success').disabled = false;
+
+    // Show delete buttons for categories
+    var deleteCategoryButtons = fishField.querySelectorAll('.delete-category');
+    deleteCategoryButtons.forEach(function(button) {
+        button.style.display = 'inline'; // Or whatever the initial display property was
+    });
+
+    // Check if all fish fields are saved, and enable "Submit Fish" button accordingly
+    updateSubmitFishButton();
 }
+
+
 
 var fishCount = 1;
 // Object to store the number of categories for each fish
@@ -513,7 +519,7 @@ function addFishField() {
         <!-- Buttons for saving, editing, and deleting -->
         <button class="btn btn-success" onclick="saveFish(this)">Save</button>
         <button class="btn btn-warning" onclick="editFish(this)">Edit</button>
-        <button class="btn btn-danger" onclick="deleteFish(this)">Delete</button>
+        <button class="btn btn-danger" onclick="resetFish(this)">Reset</button>
     `;
     container.appendChild(fishField);
 
