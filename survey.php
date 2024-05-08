@@ -105,6 +105,10 @@
             top: 0;
             right: 0;
         }
+        .mandatory {
+            color: red;
+            margin-left: 5px;
+        }
     </style>
 </head>
 <body>
@@ -116,11 +120,11 @@
         <h2 class="text-center mb-4">INRH SURVEY</h2>
         <form method="post" action="save_survey.php">
             <div class="form-group">
-                <label for="date">Date:</label>
+                <label for="date">Date:<span class="mandatory">*</span></label>
                 <input type="date" id="date" name="date" class="form-control" required>
             </div>
             <div class="form-group">
-                <label for="port">Port:</label>
+                <label for="port">Port:<span class="mandatory">*</span></label>
                 <select name="port" class="form-control" required>
                     <option value="">Select Port</option>
                     <option value="Nador">Nador</option>
@@ -155,7 +159,7 @@
             </div>
             
             <div class="form-group">
-                <label for="qualite">Qualité Enquêté:</label>
+                <label for="qualite">Qualité Enquêté:<span class="mandatory">*</span></label>
                 <select name="qualite" class="form-control" required>
                     <option value="">Select Qualité</option>
                     <option value="Patron Pêche/Marin">Patron Pêche/Marin</option>
@@ -189,7 +193,7 @@
             </div>
             
             <!-- Grid for Table 1 -->
-            <h6>Maitrisez-vous l'identification, la classification en taille ou calibre et la qualité du poisson pour les espèces commercialisées au Maroc :</h6>
+            <h6>Maitrisez-vous l'identification, la classification en taille ou calibre et la qualité du poisson pour les espèces commercialisées au Maroc :<span class="mandatory">*</span></h6>
             <table class="grid-table">
                 <tr>
                     <th></th>
@@ -217,7 +221,7 @@
             </table>
 
             <!-- Grid for Table 2 -->
-            <h6>Comment avez vous appris la classification?</h6>
+            <h6>Comment avez vous appris la classification?<span class="mandatory">*</span></h6>
             <table class="grid-table">
                 <tr>
                     <th></th>
@@ -243,7 +247,7 @@
             </table>
 
             <div class="form-group">
-                <label for="clients">Quels sont vos principaux clients:</label>
+                <label for="clients">Quels sont vos principaux clients:<span class="mandatory">*</span></label>
                 <div>
                     <label><input type="checkbox" name="clients[]" value="Marché local"> Marché local</label><br>
                     <label><input type="checkbox" name="clients[]" value="Industries locales"> Industries locales</label><br>
@@ -276,8 +280,11 @@ function saveFish(button) {
     var fishField = button.parentNode;
     var categories = fishField.querySelectorAll('input[name^="category"]');
     var previousValue = null;
+    var minValueInput = fishField.querySelector('input[name^="valeur_minimal"]');
+    var minValue = parseInt(minValueInput.value);
     var isValid = true;
 
+    // Check if any category value is bigger than the previous category
     categories.forEach(function(input) {
         var categoryNumber = input.name.split("_")[1];
         var value = parseInt(input.value);
@@ -296,7 +303,22 @@ function saveFish(button) {
         return; // Abort save action if any category is bigger than the previous one
     }
 
-    // If all categories are valid, proceed with saving the fish data
+    // Check if any category value is lower than "Valeur minimal"
+    categories.forEach(function(input) {
+        var value = parseInt(input.value);
+        if (!isNaN(value) && value < minValue) {
+            isValid = false;
+            // Show error message
+            alert("One of the category values is lower than 'Valeur minimal'.");
+            return;
+        }
+    });
+
+    if (!isValid) {
+        return; // Abort save action if any category is lower than "Valeur minimal"
+    }
+
+    // If all checks pass, proceed with saving the fish data
     var inputs = fishField.querySelectorAll('input, select, textarea');
     inputs.forEach(function(input) {
         if (input.nodeName !== 'BUTTON') {
@@ -316,6 +338,7 @@ function saveFish(button) {
     // Check if all fish fields are saved, and enable "Submit Fish" button accordingly
     updateSubmitFishButton();
 }
+
 
 
 function editFish(button) {

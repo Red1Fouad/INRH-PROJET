@@ -96,38 +96,45 @@ try {
                 // Retrieve measurement data
                 $measurement_type = isset($_POST["measurementType"][$key]) ? $_POST["measurementType"][$key] : '';
                 $measurement_value = isset($_POST["measurementValue"][$key]) ? $_POST["measurementValue"][$key] : '';
-
+        
                 // Retrieve additional processing data
-                $eviscere = isset($_POST["eviscere"][$key]) ? 'Yes' : 'No';
-                $etete = isset($_POST["etete"][$key]) ? 'Yes' : 'No';
-                $equete = isset($_POST["equete"][$key]) ? 'Yes' : 'No';
-
+                $eviscere = isset($_POST["eviscere"][$key]) && $_POST["eviscere"][$key] == 'on' ? 'Yes' : 'No';
+                $etete = isset($_POST["etete"][$key]) && $_POST["etete"][$key] == 'on' ? 'Yes' : 'No';
+                $equete = isset($_POST["equete"][$key]) && $_POST["equete"][$key] == 'on' ? 'Yes' : 'No';
+        
+        
                 $stmt = $db->prepare("INSERT INTO fish_survey (date, species, main_survey_id, processing, eviscere, etete, equete, measurement_type, measurement_value) 
                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 $stmt->execute([$date, $species, $main_survey_id, $processing, $eviscere, $etete, $equete, $measurement_type, $measurement_value]);
                 $fish_survey_id = $db->lastInsertId();
-
-                // Insert category survey data
-                if (isset($_POST["categories"][$key]) && is_array($_POST["categories"][$key])) {
-                    $categories = $_POST["categories"][$key];
-                    foreach ($categories as $category_name) {
-                        $stmt = $db->prepare("INSERT INTO category_survey (category_name, fish_survey_id) 
-                                VALUES (?, ?)");
-                        $stmt->execute([$category_name, $fish_survey_id]);
+        
+                // Check if fishCount data exists and is an array
+                if (isset($_POST["fishCount"]) && is_array($_POST["fishCount"])) {
+                    $fishCountArray = $_POST["fishCount"];
+                    // Check if fishKey exists in the fishCount array
+                    if (isset($fishCountArray[$key])) {
+                        $fishCount = $fishCountArray[$key];
+                        // Check if categories data exists for this fish
+                        if (isset($_POST["category_" . $fishCount]) && is_array($_POST["category_" . $fishCount])) {
+                            $categories = $_POST["category_" . $fishCount];
+                            // Loop through each category for this fish
+                            foreach ($categories as $category_name) {
+                                // Insert the category into the database
+                                $stmt = $db->prepare("INSERT INTO category_survey (category_name, fish_survey_id) VALUES (?, ?)");
+                                $stmt->execute([$category_name, $fish_survey_id]);
+                            }
+                        }
                     }
-                } else {
-                    echo "Error: No categories data provided.";
                 }
             }
+            echo "Survey data saved successfully.";
         } else {
             echo "Error: No species data provided.";
         }
-
-
-        echo "Survey data saved successfully.";
     } else {
         echo "Error: Required fields are missing.";
     }
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
+?>
